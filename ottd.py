@@ -4,6 +4,7 @@ import os
 import tarfile
 import pathlib
 import gc
+import shutil
 
 userpath = os.path.expanduser('~')
 root_dir = f"{userpath}/ottd/"
@@ -52,6 +53,15 @@ citymania = Repository(
     [
     "15.3",
     "13.4"
+    ]
+)
+jgrpp = Repository(
+    "jgrpp",
+    f"https://github.com/JGRennison/OpenTTD-patches/releases/download/jgrpp-0.{download_ver}/openttd-jgrpp-0.{download_ver}-linux-generic-amd64.tar.xz", 
+    f"openttd-jgrpp-0.{download_ver}-linux-generic-amd64.tar.xz",
+    [
+    "73.5",
+    "73.4"
     ]
 )
 
@@ -130,12 +140,12 @@ if args.repositories:
     repository_scan(True)
 
 if args.uninstall != None:
-    if args.uninstall in pathlib.Path(instance_dir).iterdir():
-        # rmtree the f"{instance_dir}{args.uninstall}"
-        # find a better way to do this than looping through every folder in instance_dir
-        pass
-    else:
+    try: 
+        shutil.rmtree(f"{instance_dir}{args.uninstall}")
+    except FileNotFoundError: 
         print("Version not found")
+    else:
+        print("Version uninstalled successfully")
 
 if args.version:
     print("                                       OTTD 1.0")
@@ -145,7 +155,7 @@ if args.version:
 
     - Downloading and installing OpenTTD official and community-made versions
     - Launching OpenTTD versions
-    * Uninstalling OpenTTD versions
+    - Uninstalling OpenTTD versions
     * Instancing OpenTTD options and BaNaNaS content
     * Providing a configuration file for custom repositories
     * Browsing BaNaNaS and managing its content through the terminal
