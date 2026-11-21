@@ -10,13 +10,13 @@ root_dir = f"{userpath}/ottd/"
 instance_dir = f"{root_dir}/instances/"
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-D", "--download")
-parser.add_argument("-L", "--launch")
-parser.add_argument("-U", "--uninstall")
-parser.add_argument("-V", "--versions", action="store_true")
-parser.add_argument("-Vv", "--version", action="store_true")
-parser.add_argument("-R", "--repository")
-parser.add_argument("-Rv", "--repositories", action="store_true")
+parser.add_argument("-D", "--download", help="Download OpenTTD versions; use the repository-version format")
+parser.add_argument("-L", "--launch", help="Launch OpenTTD versions; use the repository-version format")
+parser.add_argument("-U", "--uninstall", help="Remove installed OpenTTD versions; use the repository-version format")
+parser.add_argument("-V", "--versions", action="store_true", help="List installed OpenTTD versions")
+parser.add_argument("-Vv", "--version", action="store_true", help="Show the version and feature information")
+parser.add_argument("-S", "--search", help="Fetch information on OpenTTD versions; use the repository-version format")
+parser.add_argument("-R", "--repositories", action="store_true", help="List the available repositories and the versions they contain for sure")
 args = parser.parse_args()
 
 current_repo = None
@@ -70,14 +70,14 @@ for obj in gc.get_objects():
 def version_scan(printing=False):
     versions = []
     for version in pathlib.Path(instance_dir).iterdir():
-        versions.append((str(version).split("/instances/")[1]))
+        versions.append(str(version).split("/instances/")[1])
     if printing:
         print("Installed OpenTTD versions:")
         for repo in repo_objects:
             print(f" - {repo.name}:")
             for version in versions:
-                if str(version).split("-", 1)[0] == repo.name:
-                    print(f"   * {str(version).split("-", 1)[1]}")
+                if version.split("-", 1)[0] == repo.name:
+                    print(f"   * {version.split("-", 1)[1]}")
     else: 
         return versions
 
@@ -109,7 +109,7 @@ def download():
     print("folder rename successful")
     print("installation successful")
 
-if f"{current_repo}-{download_ver}" not in version_scan() and args.download != None: # add scanning for if the version directory already exists
+if f"{current_repo}-{download_ver}" not in version_scan() and args.download != None:
     if download_ver in download_verified:
         download()
     else:
@@ -128,3 +128,26 @@ if args.versions:
 
 if args.repositories:
     repository_scan(True)
+
+if args.uninstall != None:
+    if args.uninstall in pathlib.Path(instance_dir).iterdir():
+        # rmtree the f"{instance_dir}{args.uninstall}"
+        # find a better way to do this than looping through every folder in instance_dir
+        pass
+    else:
+        print("Version not found")
+
+if args.version:
+    print("                                       OTTD 1.0")
+    print()
+    print("                                       Features:")
+    print("""                   (planned features are denoted by an asterisk)
+
+    - Downloading and installing OpenTTD official and community-made versions
+    - Launching OpenTTD versions
+    * Uninstalling OpenTTD versions
+    * Instancing OpenTTD options and BaNaNaS content
+    * Providing a configuration file for custom repositories
+    * Browsing BaNaNaS and managing its content through the terminal
+    * Fetching information on OpenTTD versions
+    """)
