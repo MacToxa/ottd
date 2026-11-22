@@ -6,9 +6,15 @@ import pathlib
 import gc
 import shutil
 
+# setup variables
+soundfont_link = ""
+soundfont_license_link = ""
+
+# path variables
 userpath = os.path.expanduser('~')
 root_dir = f"{userpath}/ottd/"
 instance_dir = f"{root_dir}/instances/"
+soundfont_dir = f"{root_dir}/soundfont/"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-D", "--download", help="Download OpenTTD versions; use the repository-version format")
@@ -18,6 +24,7 @@ parser.add_argument("-V", "--versions", action="store_true", help="List installe
 parser.add_argument("-Vv", "--version", action="store_true", help="Show the version and feature information")
 parser.add_argument("-S", "--search", help="Fetch information on OpenTTD versions; use the repository-version format")
 parser.add_argument("-R", "--repositories", action="store_true", help="List the available repositories and the versions they contain for sure")
+parser.add_argument("--setup", action="store_true", help="Set up everything (Arch Linux only)")
 args = parser.parse_args()
 
 current_repo = None
@@ -138,6 +145,30 @@ if args.versions:
 
 if args.repositories:
     repository_scan(True)
+
+if args.setup:
+    timidity_install = os.system('sudo pacman -S --noconfirm timidity++')
+    if timidity_install == 0:
+        print("OTTD: Installed timidity")
+    else:
+        exit("OTTD: Failed to install timidity")
+    wget_install = os.system('sudo pacman -S --noconfirm wget')
+    if wget_install == 0:
+        print("OTTD: Installed wget")
+    else:
+        exit("OTTD: Failed to install wget")
+    wget_download = str(subprocess.run(["wget", soundfont_link, soundfont_dir], capture_output=True))
+    if "saved" in wget_download:
+        print("OTTD: Soundfont download successful")
+    else:
+        print("OTTD: Soundfont download failed")
+        exit()
+    wget_download = str(subprocess.run(["wget", soundfont_license_link, soundfont_dir], capture_output=True))
+    if "saved" in wget_download:
+        print("OTTD: Soundfont license download successful")
+    else:
+        print("OTTD: Soundfont license download failed")
+        exit()
 
 if args.uninstall != None:
     try: 
