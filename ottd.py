@@ -7,14 +7,15 @@ import gc
 import shutil
 
 # setup variables
-soundfont_link = ""
-soundfont_license_link = ""
+soundfont_link = "https://github.com/kruant/ottd/blob/main/soundfont/GeneralUser-GS.sf2"
+soundfont_license_link = "https://github.com/kruant/ottd/blob/main/soundfont/LICENSE.txt"
 
 # path variables
 userpath = os.path.expanduser('~')
 root_dir = f"{userpath}/ottd/"
 instance_dir = f"{root_dir}/instances/"
 soundfont_dir = f"{root_dir}/soundfont/"
+soundfont_path = f"{soundfont_dir}GeneralUser-GS.sf2"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-D", "--download", help="Download OpenTTD versions; use the repository-version format")
