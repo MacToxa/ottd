@@ -7,8 +7,8 @@ import gc
 import shutil
 
 # setup variables
-soundfont_link = "https://github.com/kruant/ottd/blob/main/soundfont/GeneralUser-GS.sf2"
-soundfont_license_link = "https://github.com/kruant/ottd/blob/main/soundfont/LICENSE.txt"
+soundfont_link = "https://github.com/kruant/ottd/raw/refs/heads/main/soundfont/GeneralUser-GS.sf2"
+soundfont_license_link = "https://github.com/kruant/ottd/raw/refs/heads/main/soundfont/LICENSE.txt"
 
 # path variables
 userpath = os.path.expanduser('~')
@@ -158,18 +158,19 @@ if args.setup:
         print("OTTD: Installed wget")
     else:
         exit("OTTD: Failed to install wget")
-    wget_download = str(subprocess.run(["wget", soundfont_link, soundfont_dir], capture_output=True))
+    wget_download = str(subprocess.run(["wget", "-P", soundfont_dir, soundfont_link,], capture_output=True))
     if "saved" in wget_download:
         print("OTTD: Soundfont download successful")
     else:
         print("OTTD: Soundfont download failed")
         exit()
-    wget_download = str(subprocess.run(["wget", soundfont_license_link, soundfont_dir], capture_output=True))
+    wget_download = str(subprocess.run(["wget", "-P", soundfont_dir, soundfont_license_link], capture_output=True))
     if "saved" in wget_download:
         print("OTTD: Soundfont license download successful")
     else:
         print("OTTD: Soundfont license download failed")
         exit()
+    subprocess.call(['sudo', 'python3'])
 
 if args.uninstall != None:
     try: 
