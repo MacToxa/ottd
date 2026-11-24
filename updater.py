@@ -1,17 +1,18 @@
 import os
 import subprocess
-from ottd import soundfont_dir
+# path variables
+from paths import soundfont_dir
 
 # updater variables
-soundfont_link = "https://github.com/kruant/ottd/raw/refs/heads/main/soundfont/GeneralUser-GS.sf2"
-soundfont_license_link = "https://github.com/kruant/ottd/raw/refs/heads/main/soundfont/LICENSE.txt"
+soundfont_link = "https://github.com/mactoxa/ottd/raw/refs/heads/main/soundfont/GeneralUser-GS.sf2"
+soundfont_license_link = "https://github.com/mactoxa/ottd/raw/refs/heads/main/soundfont/LICENSE.txt"
 
-timidity_install = os.system('pacman -S --noconfirm timidity++')
+timidity_install = os.system('sudo pacman -S --noconfirm timidity++')
 if timidity_install == 0:
     print("OTTD: Installed timidity")
 else:
     exit("OTTD: Failed to install timidity")
-wget_install = os.system('pacman -S --noconfirm wget')
+wget_install = os.system('sudo pacman -S --noconfirm wget')
 if wget_install == 0:
     print("OTTD: Installed wget")
 else:

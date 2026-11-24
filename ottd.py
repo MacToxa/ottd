@@ -7,12 +7,7 @@ import gc
 import shutil
 
 # path variables
-userpath = os.path.expanduser('~')
-root_dir = f"{userpath}/ottd/"
-alt_root_dir = f"{os.path.dirname(os.path.realpath(__file__))}/"
-instance_dir = f"{root_dir}/instances/"
-soundfont_dir = f"{root_dir}/soundfont/"
-soundfont_path = f"{soundfont_dir}GeneralUser-GS.sf2"
+from paths import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-D", "--download", help="Download OpenTTD versions; use the repository-version format")
@@ -147,7 +142,7 @@ if args.repositories:
 if args.setup:
     userinput = input("The setup/update script requires elevation. Do you want to run it? Y/N ")
     if userinput == "y" or userinput == "Y":
-        subprocess.call(["sudo", "python3", f"{alt_root_dir}updater.py"])
+        subprocess.call(["python3", f"{alt_root_dir}updater.py"])
 
 if args.uninstall != None:
     try: 
