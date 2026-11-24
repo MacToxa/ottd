@@ -5,7 +5,6 @@ import tarfile
 import pathlib
 import gc
 import shutil
-
 # path variables
 from paths import *
 
