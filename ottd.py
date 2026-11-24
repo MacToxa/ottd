@@ -139,9 +139,9 @@ if args.repositories:
     repository_scan(True)
 
 if args.setup:
-    userinput = input("The setup/update script requires elevation. Do you want to run it? Y/N ")
+    userinput = input("The setup script requires elevation. Do you want to run it? Y/N ")
     if userinput == "y" or userinput == "Y":
-        subprocess.call(["python3", f"{alt_root_dir}updater.py"])
+        subprocess.call(["python3", f"{alt_root_dir}updater.py", "--setup"])
 
 if args.uninstall != None:
     try: 
