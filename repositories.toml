@@ -1,0 +1,7 @@
+[openttd]
+name = "openttd"
+url = "https://cdn.openttd.org/openttd-releases/{download_ver}/openttd-{download_ver}-linux-generic-amd64.tar.xz"
+filename = "openttd-{download_ver}-linux-generic-amd64.tar.xz"
+verified_vers = ["15.3", "14.1"]
+
+[citymania]
